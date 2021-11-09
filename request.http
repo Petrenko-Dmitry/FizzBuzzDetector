@@ -1,6 +1,10 @@
+GET http://localhost:8080/getAllFizzBuzz?count=3
+Accept: application/json
+
+###
 POST http://localhost:8080/api
 Content-Type: application/json
 
-{"text": null}
+{"text": "dsa dsad g"}
 
 ###

@@ -1,15 +1,32 @@
 package com.fizzbuzz.service;
 
+import com.fizzbuzz.converter.FizzBuzzToFizzBuzzDto;
+import com.fizzbuzz.dto.FizzBuzzDto;
+import com.fizzbuzz.dto.FizzBuzzResponse;
+import com.fizzbuzz.entity.FizzBuzz;
+import com.fizzbuzz.repository.FizzBuzzRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class FizzBuzzDetectorService {
+    private final FizzBuzzRepository fizzBuzzRepository;
+    private final FizzBuzzToFizzBuzzDto fizzBuzzToFizzBuzzDto;
+
+    public FizzBuzzDetectorService(FizzBuzzRepository fizzBuzzRepository, FizzBuzzToFizzBuzzDto fizzBuzzToFizzBuzzDto) {
+        this.fizzBuzzRepository = fizzBuzzRepository;
+        this.fizzBuzzToFizzBuzzDto = fizzBuzzToFizzBuzzDto;
+    }
+
     /*
      * Метод в котором мы находим и заменяем каждое 3-е слово на Fizz, каждое 5-ое на Buzz, и выводим строку с замененнными словами.
      * Так же подсчитываем количество произошедших замен.
      * */
-    public String getOverlapping(String s) {
+    public FizzBuzzResponse getOverlapping(String s) {
         String[] split = split(s);
+        FizzBuzz fizzBuzz = new FizzBuzz();
         int countFizz = 0, countBuzz = 0, countFizzBuzz = 0;
         for (int i = 0; i < split.length; i++) {
             if ((i + 1) % 3 == 0 && (i + 1) % 5 == 0) {
@@ -23,7 +40,12 @@ public class FizzBuzzDetectorService {
                 countBuzz++;
             }
         }
-        return builderToString(split).toString() + "\n" + "Fizz = " + countFizz + ", Buzz = " + countBuzz + ", FizzBuzz = " + countFizzBuzz;
+        fizzBuzz.setText(builderToString(split).toString());
+        fizzBuzz.setCountFizz(countFizz);
+        fizzBuzz.setCountBuzz(countBuzz);
+        fizzBuzz.setCountFizzBuzz(countFizzBuzz);
+        Long savedId = fizzBuzzRepository.save(fizzBuzz).getId();
+        return new FizzBuzzResponse(savedId,builderToString(split).toString());
     }
 
     /*
@@ -54,5 +76,23 @@ public class FizzBuzzDetectorService {
             builder.append(" ");
         }
         return builder;
+    }
+
+    public List<FizzBuzzDto> getAllFizzBuzz() {
+        List<FizzBuzz> allFizzBuzz = fizzBuzzRepository.findAll();
+        List<FizzBuzzDto> fizzBuzzDtoList = new ArrayList<>();
+        for (FizzBuzz fizzBuzz : allFizzBuzz) {
+            fizzBuzzDtoList.add(fizzBuzzToFizzBuzzDto.convert(fizzBuzz));
+        }
+        return fizzBuzzDtoList;
+    }
+
+    public List<FizzBuzzDto> getFizzBuzzByCount(Integer count) {
+        List<FizzBuzz> fizzBuzzList = fizzBuzzRepository.findByCountBuzz(count);
+        List<FizzBuzzDto> fizzBuzzDtoList = new ArrayList<>();
+        for (FizzBuzz fizzBuzz : fizzBuzzList) {
+            fizzBuzzDtoList.add(fizzBuzzToFizzBuzzDto.convert(fizzBuzz));
+        }
+        return fizzBuzzDtoList;
     }
 }
