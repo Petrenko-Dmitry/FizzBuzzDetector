@@ -1,6 +1,5 @@
 package com.fizzbuzz.exception;
 
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,6 +17,7 @@ public class ExceptionHandler {
     public ResponseEntity<Error> fizzBuzzError(FizzBuzzException e) {
         return new ResponseEntity<>(createError(e, 422), HttpStatus.UNPROCESSABLE_ENTITY);
     }
+
     @org.springframework.web.bind.annotation.ExceptionHandler(value = Exception.class)
     public ResponseEntity<Error> exception(Exception e) {
         return new ResponseEntity<>(createError(e, 500), HttpStatus.INTERNAL_SERVER_ERROR);

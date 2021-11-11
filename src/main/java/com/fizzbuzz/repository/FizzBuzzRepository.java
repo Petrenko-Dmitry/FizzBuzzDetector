@@ -8,6 +8,6 @@ import java.util.List;
 
 
 @Repository
-public interface FizzBuzzRepository extends JpaRepository<FizzBuzz,Long> {
+public interface FizzBuzzRepository extends JpaRepository<FizzBuzz, Long> {
     List<FizzBuzz> findByCountBuzz(Integer count);
 }

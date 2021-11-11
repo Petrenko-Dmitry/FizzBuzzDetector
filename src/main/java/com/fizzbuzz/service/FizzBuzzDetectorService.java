@@ -45,7 +45,7 @@ public class FizzBuzzDetectorService {
         fizzBuzz.setCountBuzz(countBuzz);
         fizzBuzz.setCountFizzBuzz(countFizzBuzz);
         Long savedId = fizzBuzzRepository.save(fizzBuzz).getId();
-        return new FizzBuzzResponse(savedId,builderToString(split).toString());
+        return new FizzBuzzResponse(savedId, builderToString(split).toString());
     }
 
     /*

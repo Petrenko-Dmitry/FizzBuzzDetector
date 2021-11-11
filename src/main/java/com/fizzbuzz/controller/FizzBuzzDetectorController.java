@@ -3,7 +3,6 @@ package com.fizzbuzz.controller;
 import com.fizzbuzz.dto.FizzBuzzDto;
 import com.fizzbuzz.dto.FizzBuzzRequest;
 import com.fizzbuzz.dto.FizzBuzzResponse;
-import com.fizzbuzz.exception.FizzBuzzException;
 import com.fizzbuzz.exception.RequestException;
 import com.fizzbuzz.service.FizzBuzzDetectorService;
 import com.google.common.base.Strings;

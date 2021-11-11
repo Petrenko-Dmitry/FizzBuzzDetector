@@ -6,7 +6,6 @@ import com.fizzbuzz.dto.FizzBuzzDto;
 import com.fizzbuzz.dto.FizzBuzzRequest;
 import com.fizzbuzz.dto.FizzBuzzResponse;
 import com.fizzbuzz.entity.FizzBuzz;
-import com.fizzbuzz.exception.FizzBuzzException;
 import com.fizzbuzz.exception.RequestException;
 import com.fizzbuzz.repository.FizzBuzzRepository;
 import com.fizzbuzz.service.FizzBuzzDetectorService;
