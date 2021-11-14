@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
 public class FizzBuzzDetectorService {
     private final FizzBuzzRepository fizzBuzzRepository;
@@ -20,10 +21,14 @@ public class FizzBuzzDetectorService {
         this.fizzBuzzToFizzBuzzDto = fizzBuzzToFizzBuzzDto;
     }
 
-    /*
-     * Метод в котором мы находим и заменяем каждое 3-е слово на Fizz, каждое 5-ое на Buzz, и выводим строку с замененнными словами.
+    /**
+     * Метод в котором мы находим и заменяем каждое 3-е слово на Fizz, каждое 5-ое на Buzz, и выводим строку с замененными словами.
      * Так же подсчитываем количество произошедших замен.
-     * */
+     *
+     * @param s - входящий текст, который разбивается по слову на массив String.
+     *          Массив потом используется для замены слов по соответствующему алгоритму.
+     * @return получаем сущность FizzBuzzResponse в которой записан уже изменённый текст, и присвоенный id, для сохранения.
+     */
     public FizzBuzzResponse getOverlapping(String s) {
         String[] split = split(s);
         FizzBuzz fizzBuzz = new FizzBuzz();
@@ -48,9 +53,12 @@ public class FizzBuzzDetectorService {
         return new FizzBuzzResponse(savedId, builderToString(split).toString());
     }
 
-    /*
+    /**
      * Метод в котором мы разбиваем строку на отдельные слова для подальшего использования в массиве.
-     * */
+     *
+     * @param s - входящий текст который разбивается на массив String.
+     * @return массив String.
+     */
     public static String[] split(String s) {
         char[] ch = s.toCharArray();
         String sc = "";
@@ -66,9 +74,12 @@ public class FizzBuzzDetectorService {
         return split;
     }
 
-    /*
+    /**
      * Метод для вывода текста целой строкой.
-     * */
+     *
+     * @param split - массив с уже изменёнными словами
+     * @return конечный результат работы алгоритма замены, в виде одной строки.
+     */
     public static StringBuilder builderToString(String[] split) {
         StringBuilder builder = new StringBuilder();
         for (String word : split) {
@@ -78,6 +89,11 @@ public class FizzBuzzDetectorService {
         return builder;
     }
 
+    /**
+     * Метод для вывода всех результатов работы алгоритма.
+     *
+     * @return List<FizzBuzzDto> лист всех сохраненных ранее результатов.
+     */
     public List<FizzBuzzDto> getAllFizzBuzz() {
         List<FizzBuzz> allFizzBuzz = fizzBuzzRepository.findAll();
         List<FizzBuzzDto> fizzBuzzDtoList = new ArrayList<>();
@@ -87,6 +103,12 @@ public class FizzBuzzDetectorService {
         return fizzBuzzDtoList;
     }
 
+    /**
+     * Метод для поиска и вывода всех результатов работы алгоритма по количеству замены Buzz в строке.
+     *
+     * @param count - количество замены Buzz в строке по которому будет происходить поиск.
+     * @return List<FizzBuzzDto> лист результатов поиска.
+     */
     public List<FizzBuzzDto> getFizzBuzzByCount(Integer count) {
         List<FizzBuzz> fizzBuzzList = fizzBuzzRepository.findByCountBuzz(count);
         List<FizzBuzzDto> fizzBuzzDtoList = new ArrayList<>();
